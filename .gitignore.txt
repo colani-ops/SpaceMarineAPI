@@ -1,0 +1,17 @@
+.vs/
+*.vsdx
+*.user
+*.suo
+*.log
+*.db
+*.DS_Store
+bin/
+obj/
+.vscode/
+*.tmp
+*.pdb
+*.cache
+.idea/
+*.sln.docstates
+appsettings.Development.json
+appsettings.json
