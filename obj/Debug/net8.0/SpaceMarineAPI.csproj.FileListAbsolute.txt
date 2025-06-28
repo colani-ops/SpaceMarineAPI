@@ -78,3 +78,5 @@ D:\Projects\Zavrsni\SpaceMarineAPI\bin\Debug\net8.0\runtimes\win\lib\net8.0\Syst
 D:\Projects\Zavrsni\SpaceMarineAPI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\Projects\Zavrsni\SpaceMarineAPI\obj\Debug\net8.0\SpaceMarineAPI.csproj.AssemblyReference.cache
 D:\Projects\Zavrsni\SpaceMarineAPI\obj\Debug\net8.0\SpaceMar.E0E9AB4B.Up2Date
+D:\Projects\Zavrsni\SpaceMarineAPI\bin\Debug\net8.0\package-lock.json
+D:\Projects\Zavrsni\SpaceMarineAPI\obj\Debug\net8.0\SpaceMarineAPI.sourcelink.json

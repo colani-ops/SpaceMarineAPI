@@ -12,6 +12,8 @@ namespace SpaceMarineAPI.Repositories
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+
+
         public void AddMarine(SpaceMarine marine)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -33,6 +35,38 @@ namespace SpaceMarineAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
+
+
+        public SpaceMarine GetMarineById(int id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM SpaceMarines WHERE Id = @id", connection);
+                command.Parameters.AddWithValue("@id", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new SpaceMarine
+                        {
+                            Id = (int)reader["Id"],
+                            FirstName = reader["FirstName"].ToString(),
+                            LastName = reader["LastName"].ToString(),
+                            Age = (int)reader["Age"],
+                            Experience = (int)reader["Experience"],
+                            SquadId = (int)reader["SquadId"],
+                            PortraitImage = reader["PortraitImage"] == DBNull.Value ? null : reader["PortraitImage"].ToString()
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+
 
         public List<SpaceMarine> GetMarinesBySquad(int squadId)
         {
@@ -63,6 +97,36 @@ namespace SpaceMarineAPI.Repositories
             return marines;
         }
 
+
+        public List<SpaceMarine> GetAllMarines()
+        {
+            var marines = new List<SpaceMarine>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM SpaceMarines", connection);
+
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    marines.Add(new SpaceMarine
+                    {
+                        Id = (int)reader["Id"],
+                        FirstName = reader["FirstName"].ToString(),
+                        LastName = reader["LastName"].ToString(),
+                        Age = (int)reader["Age"],
+                        Experience = (int)reader["Experience"],
+                        SquadId = (int)reader["SquadId"],
+                        PortraitImage = reader["PortraitImage"] == DBNull.Value ? null : reader["PortraitImage"].ToString()
+                    });
+                }
+            }
+
+            return marines;
+        }
+
+
         public void UpdateMarine(int id, SpaceMarine marine)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -86,6 +150,8 @@ namespace SpaceMarineAPI.Repositories
             }
         }
 
+
+
         public void DeleteMarine(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -96,6 +162,5 @@ namespace SpaceMarineAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
-
     }
 }

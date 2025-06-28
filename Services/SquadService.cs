@@ -20,15 +20,27 @@ namespace SpaceMarineAPI.Services
             _squadRepository.AddSquad(squad);
         }
 
+
+        public Squad GetSquadById(int id)
+        {
+            return _squadRepository.GetSquadById(id);
+        }
+
+
+
         public List<Squad> GetAllSquads()
         {
             return _squadRepository.GetAllSquads();
         }
 
+
+
         public void UpdateSquad(int id, Squad squad)
         {
             _squadRepository.UpdateSquad(id, squad);
         }
+
+
 
         public void DeleteSquad(int id)
         {

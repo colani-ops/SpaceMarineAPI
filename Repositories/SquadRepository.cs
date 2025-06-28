@@ -7,6 +7,12 @@ namespace SpaceMarineAPI.Repositories
     {
         private readonly string _connectionString;
 
+        public SquadRepository(IConfiguration config)
+        {
+            _connectionString = config.GetConnectionString("DefaultConnection");
+        }
+
+
         public void AddSquad(Squad squad)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -18,6 +24,34 @@ namespace SpaceMarineAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
+
+
+        public Squad GetSquadById(int id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Squads WHERE Id = @id", connection);
+                command.Parameters.AddWithValue("@id", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new Squad
+                        {
+                            Id = (int)reader["Id"],
+                            Name = reader["Name"].ToString(),
+                            Type = reader["Type"].ToString()
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+
 
         public List<Squad> GetAllSquads()
         {
@@ -42,6 +76,7 @@ namespace SpaceMarineAPI.Repositories
             return squads;
         }
 
+
         public void UpdateSquad(int id, Squad squad)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -57,6 +92,7 @@ namespace SpaceMarineAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
 
         public void DeleteSquad(int id)
         {

@@ -25,11 +25,31 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+        //GET MARINE BY ID
+        [HttpGet("{id}")]
+        public IActionResult GetMarineById(int id)
+        {
+            var marine = _marineService.GetMarineById(id);
+            if (marine == null)
+                return NotFound();
+            return Ok(marine);
+        }
+
+
         //GET MARINE FROM SQUAD
         [HttpGet("bysquad/{squadId}")]
         public IActionResult GetMarinesBySquad(int squadId)
         {
             var marines = _marineService.GetMarinesBySquad(squadId);
+            return Ok(marines);
+        }
+
+
+        //GET ALL MARINES
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var marines = _marineService.GetAllMarines();
             return Ok(marines);
         }
 
@@ -51,6 +71,8 @@ namespace SpaceMarineAPI.Controllers
             return Ok(new { message = "Marine deleted!" });
         }
 
+
+        //GET MARINE RANK
         [HttpGet("rank/{experience}")]
         public IActionResult GetRank(int experience)
         {

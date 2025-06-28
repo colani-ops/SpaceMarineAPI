@@ -12,20 +12,36 @@ namespace SpaceMarineAPI.Services
             _marineRepository = marineRepository;
         }
 
+
         public void AddMarine(SpaceMarine marine)
         {
             _marineRepository.AddMarine(marine);
         }
+
+
+        public SpaceMarine GetMarineById(int id)
+        {
+            return _marineRepository.GetMarineById(id);
+        }
+
 
         public List<SpaceMarine> GetMarinesBySquad(int squadId)
         {
             return _marineRepository.GetMarinesBySquad(squadId);
         }
 
+
+        public List<SpaceMarine> GetAllMarines()
+        {
+            return _marineRepository.GetAllMarines();
+        }
+
+
         public void UpdateMarine(int id, SpaceMarine marine)
         {
             _marineRepository.UpdateMarine(id, marine);
         }
+
 
         public void DeleteMarine(int id)
         {

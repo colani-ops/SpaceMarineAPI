@@ -24,7 +24,20 @@ namespace SpaceMarineAPI.Controllers
             return Ok(new { message = "Squad created!" });
         }
 
-        //GETALL SQUAD
+
+        //GET SQUAD BY ID
+        [HttpGet("{id}")]
+        public IActionResult GetSquadById(int id)
+        {
+            var squad = _squadService.GetSquadById(id);
+            if (squad == null)
+                return NotFound();
+
+            return Ok(squad);
+        }
+
+
+        //GET ALL SQUADS
         [HttpGet]
         public IActionResult GetAllSquads()
         {
