@@ -31,7 +31,7 @@ export default function Marines() {
     <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
       {m.portraitImage && (
         <img
-          src={`/images/${m.portraitImage}`}
+          src={`https://localhost:7170/images/${marine.portraitImage}`}
           alt="Portrait"
           style={{
             width: "30px",

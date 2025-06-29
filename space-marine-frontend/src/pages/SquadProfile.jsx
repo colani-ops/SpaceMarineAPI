@@ -43,7 +43,7 @@ export default function SquadProfile() {
             <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               {m.portraitImage && (
                 <img
-                  src={`/images/${m.portraitImage}`}
+                  src={`https://localhost:7170/images/${m.portraitImage}`}
                   alt="Marine Portrait"
                   style={{
                     width: "40px",
@@ -53,9 +53,9 @@ export default function SquadProfile() {
                   }}
                 />
               )}
-              <Link to={`/marine/${m.id}`}>
-                {m.firstName} {m.lastName} (Age: {m.age})
-              </Link>
+                <Link to={`/marine/${m.id}`}>
+                  {m.firstName} {m.lastName} (Age: {m.age})
+                </Link>
             </li>
           ))}
         </ul>

@@ -64,25 +64,28 @@ export default function Squads() {
             {expandedSquadId === squad.id && marinesBySquad[squad.id] && (
               <ul>
                 {marinesBySquad[squad.id].map((m) => (
-                  <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    {m.portraitImage && (
-                      <img
-                        src={`/images/${m.portraitImage}`}
-                        alt="Portrait"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          objectFit: "cover",
-                          borderRadius: "4px"
-                        }}
-                      />
-                    )}
-                    <Link to={`/marine/${m.id}`}>
-                      {m.firstName} {m.lastName}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <li
+                key={m.id}
+                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                {m.portraitImage && (
+              <img
+                src={`https://localhost:7170/images/${m.portraitImage}`}
+                alt="Portrait"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  objectFit: "cover",
+                  borderRadius: "4px"
+                }}
+              />
+              )}
+                <Link to={`/marine/${m.id}`}>
+                  {m.firstName} {m.lastName}
+                </Link>
+              </li>
+              ))}
+            </ul>
             )}
           </div>
         </div>

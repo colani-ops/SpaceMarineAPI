@@ -183,10 +183,12 @@ export default function ManageMarines() {
                 type="file" 
                 onChange={(e) => setSelectedFile(e.target.files[0])} 
                 />
-
                 {m.portraitImage && (
+
+                  console.log("Marine image:", m.portraitImage),
+
                   <img
-                    src={`/images/${m.portraitImage}`}
+                    src={`https://localhost:7170/images/${marine.portraitImage}`}
                     alt="Portrait"
                     style={{
                       width: "50px",
