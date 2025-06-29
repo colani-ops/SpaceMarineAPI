@@ -18,9 +18,13 @@ namespace SpaceMarineAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new SqlCommand("INSERT INTO Squads (Name, Type) VALUES (@name, @type)", connection);
+                var command = new SqlCommand(
+                    "INSERT INTO Squads (Name, Type, PortraitImage) VALUES (@name, @type, @portraitImage)",
+                connection);
+
                 command.Parameters.AddWithValue("@name", squad.Name);
                 command.Parameters.AddWithValue("@type", squad.Type);
+                command.Parameters.AddWithValue("@portraitImage", squad.PortraitImage ?? "");
                 command.ExecuteNonQuery();
             }
         }
@@ -43,7 +47,8 @@ namespace SpaceMarineAPI.Repositories
                         {
                             Id = (int)reader["Id"],
                             Name = reader["Name"].ToString(),
-                            Type = reader["Type"].ToString()
+                            Type = reader["Type"].ToString(),
+                            PortraitImage = reader["PortraitImage"] == DBNull.Value ? null : reader["PortraitImage"].ToString()
                         };
                     }
                 }
@@ -60,7 +65,7 @@ namespace SpaceMarineAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Squads", connection);
+                var command = new SqlCommand("SELECT Id, Name, Type, PortraitImage FROM Squads", connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -68,7 +73,8 @@ namespace SpaceMarineAPI.Repositories
                     {
                         Id = (int)reader["Id"],
                         Name = reader["Name"].ToString(),
-                        Type = reader["Type"].ToString()
+                        Type = reader["Type"].ToString(),
+                        PortraitImage = reader["PortraitImage"] == DBNull.Value ? null : reader["PortraitImage"].ToString()
                     });
                 }
             }
@@ -83,10 +89,12 @@ namespace SpaceMarineAPI.Repositories
             {
                 connection.Open();
                 var command = new SqlCommand(
-                    "UPDATE Squads SET Name = @name, Type = @type WHERE Id = @id", connection);
+                    "UPDATE Squads SET Name = @name, Type = @type, PortraitImage = @portraitImage WHERE Id = @id",
+                   connection);
 
                 command.Parameters.AddWithValue("@name", squad.Name);
                 command.Parameters.AddWithValue("@type", squad.Type);
+                command.Parameters.AddWithValue("@portraitImage", squad.PortraitImage ?? "");
                 command.Parameters.AddWithValue("@id", id);
 
                 command.ExecuteNonQuery();

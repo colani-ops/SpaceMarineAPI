@@ -16,6 +16,23 @@ namespace SpaceMarineAPI.Services
         }
 
 
+        public List<User> GetAllUsers()
+        {
+            return _userRepository.GetAllUsers();
+        }
+
+        public void DeleteUser(int id)
+        {
+            _userRepository.DeleteUser(id);
+        }
+
+        public void UpdateUserRole(int id, string role)
+        {
+            _userRepository.UpdateUserRole(id, role);
+        }
+
+
+
         public User? Authenticate(string username, string password)
         {
             var user = _userRepository.GetUserByUsername(username);
@@ -43,7 +60,7 @@ namespace SpaceMarineAPI.Services
 
 
 
-        private static string ComputeSha256Hash(string rawData)
+        public static string ComputeSha256Hash(string rawData)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -57,6 +74,23 @@ namespace SpaceMarineAPI.Services
                 }
                 return builder.ToString();
             }
+        }
+
+
+
+        public void UpdatePassword(int id, string hash)
+        {
+            _userRepository.UpdatePassword(id, hash);
+        }
+
+        public void UpdateUsername(int id, string username)
+        {
+            _userRepository.UpdateUsername(id, username);
+        }
+
+        public void UpdatePortrait(int id, string filename)
+        {
+            _userRepository.UpdatePortrait(id, filename);
         }
     }
 }

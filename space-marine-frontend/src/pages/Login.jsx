@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,8 +21,8 @@ export default function Login() {
         password,
       });
 
-      // Save the user info to localStorage
-      localStorage.setItem("user", JSON.stringify(response.data));
+      // Use context login to set state and localStorage
+      login(response.data);
 
       // Redirect to dashboard
       navigate("/dashboard");

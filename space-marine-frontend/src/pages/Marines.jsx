@@ -27,19 +27,31 @@ export default function Marines() {
         <p>No marines found.</p>
       ) : (
         <ul>
-          {marines.map(m => (
-            <li key={m.id}>
-              <Link to={`/marine/${m.id}`}>
-                {m.firstName} {m.lastName}
-              </Link>
-              {' '}
-              (Age: {m.age}, Experience: {m.experience}) —{' '}
-              <Link to={`/squad/${m.squadId}`}>
-                Squad {m.squadId}
-              </Link>
-            </li>
-          ))}
-        </ul>
+  {marines.map(m => (
+    <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+      {m.portraitImage && (
+        <img
+          src={`/images/${m.portraitImage}`}
+          alt="Portrait"
+          style={{
+            width: "30px",
+            height: "30px",
+            objectFit: "cover",
+            borderRadius: "4px"
+          }}
+        />
+      )}
+      <Link to={`/marine/${m.id}`}>
+        {m.firstName} {m.lastName}
+      </Link>
+      (Age: {m.age}, XP: {m.experience}) —{" "}
+      <Link to={`/squad/${m.squadId}`}>
+        Squad {m.squadId}
+      </Link>
+    </li>
+  ))}
+</ul>
+
       )}
     </div>
   );

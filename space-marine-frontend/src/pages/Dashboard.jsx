@@ -19,6 +19,9 @@ export default function Dashboard() {
             <li>
               <Link to="/manage-marines">Manage Marines</Link>
             </li>
+            <li>
+              <Link to="/manage-users">Manage Users</Link>
+            </li>
           </ul>
         </div>
       )}

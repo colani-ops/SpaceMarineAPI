@@ -98,6 +98,7 @@ namespace SpaceMarineAPI.Repositories
         }
 
 
+
         public List<SpaceMarine> GetAllMarines()
         {
             var marines = new List<SpaceMarine>();

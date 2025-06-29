@@ -1,5 +1,3 @@
-// src/pages/Squads.jsx
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -32,25 +30,61 @@ export default function Squads() {
     <div>
       <h2>All Squads</h2>
       {squads.map(squad => (
-        <div key={squad.id} style={{ border: '1px solid gray', marginBottom: '10px', padding: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Link to={`/squad/${squad.id}`} style={{ fontWeight: 'bold' }}>
-              {squad.name} ({squad.type})
-            </Link>
-            <button onClick={() => toggleSquad(squad.id)}>
-              {expandedSquadId === squad.id ? 'Hide Marines' : 'Show Marines'}
-            </button>
-          </div>
-
-          {expandedSquadId === squad.id && marinesBySquad[squad.id] && (
-            <ul>
-              {marinesBySquad[squad.id].map(m => (
-                <li key={m.id}>
-                  <Link to={`/marine/${m.id}`}>{m.firstName} {m.lastName}</Link>
-                </li>
-              ))}
-            </ul>
+        <div
+          key={squad.id}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            border: "1px solid gray",
+            marginBottom: "10px",
+            padding: "10px"
+          }}
+        >
+          {squad.portraitImage && (
+            <img
+              src={`/images/${squad.portraitImage}`}
+              alt="Squad portrait"
+              style={{
+                width: "50px",
+                height: "50px",
+                objectFit: "cover",
+                marginRight: "1rem"
+              }}
+            />
           )}
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <Link to={`/squad/${squad.id}`} style={{ fontWeight: "bold" }}>
+                {squad.name} ({squad.type})
+              </Link>
+              <button onClick={() => toggleSquad(squad.id)}>
+                {expandedSquadId === squad.id ? "Hide Marines" : "Show Marines"}
+              </button>
+            </div>
+            {expandedSquadId === squad.id && marinesBySquad[squad.id] && (
+              <ul>
+                {marinesBySquad[squad.id].map((m) => (
+                  <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    {m.portraitImage && (
+                      <img
+                        src={`/images/${m.portraitImage}`}
+                        alt="Portrait"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          objectFit: "cover",
+                          borderRadius: "4px"
+                        }}
+                      />
+                    )}
+                    <Link to={`/marine/${m.id}`}>
+                      {m.firstName} {m.lastName}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       ))}
     </div>

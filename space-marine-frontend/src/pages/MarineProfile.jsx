@@ -29,14 +29,21 @@ export default function MarineProfile() {
 
   return (
     <div style={{ padding: '1rem' }}>
+
+      {marine.portraitImage && (
+      <img
+        src={`/images/${marine.portraitImage}`}
+        alt="Marine Portrait"
+        style={{ width: "200px", height: "200px", objectFit: "cover", marginBottom: "1rem" }}
+      />
+)}
+
+
       <h2>{marine.firstName} {marine.lastName}</h2>
       <p>Age: {marine.age}</p>
       <p>Experience: {marine.experience}</p>
       {squad && (
         <p>Squad: <Link to={`/squad/${squad.id}`}>{squad.name}</Link> ({squad.type})</p>
-      )}
-      {marine.portraitImage && (
-        <img src={marine.portraitImage} alt="Marine Portrait" width="200" />
       )}
     </div>
   );
