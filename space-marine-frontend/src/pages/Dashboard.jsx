@@ -17,9 +17,6 @@ export default function Dashboard() {
               <Link to="/manage-squads">Manage Squads</Link>
             </li>
             <li>
-              <Link to="/manage-marines">Manage Marines</Link>
-            </li>
-            <li>
               <Link to="/manage-users">Manage Users</Link>
             </li>
           </ul>

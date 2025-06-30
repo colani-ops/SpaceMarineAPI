@@ -1,17 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Squads from "./pages/Squads";
-import Marines from "./pages/Marines";
 import SquadProfile from "./pages/SquadProfile";
-import MarineProfile from "./pages/MarineProfile";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Manage from "./pages/Manage";
 import ManageSquads from "./pages/ManageSquads";
-import ManageMarines from "./pages/ManageMarines";
 import { useAuth } from "./AuthContext";
 import ManageUsers from "./pages/ManageUsers";
-import MyProfile from "./pages/MyProfile";
+import UserProfile from "./pages/UserProfile";
 
 
 export default function App() {
@@ -42,10 +40,10 @@ export default function App() {
         <Route path="/" element={<h1>Welcome to the Space Marine DB</h1>} />
         <Route path="/squads" element={<Squads />} />
         <Route path="/squad/:id" element={<SquadProfile />} />
-        <Route path="/marines" element={<Marines />} />
-        <Route path="/marine/:id" element={<MarineProfile />} />
+        <Route path="/user/:id" element={<UserProfile />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        
+
         <Route
           path="/dashboard"
           element={
@@ -73,14 +71,6 @@ export default function App() {
           }
 
         />
-        <Route
-          path="/manage-marines"
-          element={
-            <ProtectedRoute allowedRoles={["SuperAdmin"]}>
-              <ManageMarines />
-            </ProtectedRoute>
-          }
-        />
 
         <Route
           path="/manage-users"
@@ -92,14 +82,13 @@ export default function App() {
         />
 
         <Route
-          path="/my-profile"
+          path="/user-profile"
           element={
         <ProtectedRoute>
-          <MyProfile />
+          <UserProfile />
         </ProtectedRoute>
         }
         />
-
       </Routes>
     </Router>
   );

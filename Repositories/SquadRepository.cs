@@ -13,23 +13,6 @@ namespace SpaceMarineAPI.Repositories
         }
 
 
-        public void AddSquad(Squad squad)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new SqlCommand(
-                    "INSERT INTO Squads (Name, Type, PortraitImage) VALUES (@name, @type, @portraitImage)",
-                connection);
-
-                command.Parameters.AddWithValue("@name", squad.Name);
-                command.Parameters.AddWithValue("@type", squad.Type);
-                command.Parameters.AddWithValue("@portraitImage", squad.PortraitImage ?? "");
-                command.ExecuteNonQuery();
-            }
-        }
-
-
 
         public Squad GetSquadById(int id)
         {
@@ -83,6 +66,25 @@ namespace SpaceMarineAPI.Repositories
         }
 
 
+
+        public void AddSquad(Squad squad)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand(
+                    "INSERT INTO Squads (Name, Type, PortraitImage) VALUES (@name, @type, @portraitImage)",
+                connection);
+
+                command.Parameters.AddWithValue("@name", squad.Name);
+                command.Parameters.AddWithValue("@type", squad.Type);
+                command.Parameters.AddWithValue("@portraitImage", squad.PortraitImage ?? "");
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+
         public void UpdateSquad(int id, Squad squad)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -100,6 +102,7 @@ namespace SpaceMarineAPI.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
 
 
         public void DeleteSquad(int id)

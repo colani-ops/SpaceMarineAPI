@@ -16,6 +16,7 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+
         //CREATE SQUAD
         [HttpPost]
         public IActionResult CreateSquad([FromBody] Squad squad)
@@ -23,6 +24,7 @@ namespace SpaceMarineAPI.Controllers
             _squadService.AddSquad(squad);
             return Ok(new { message = "Squad created!" });
         }
+
 
 
         //GET SQUAD BY ID
@@ -37,6 +39,7 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+
         //GET ALL SQUADS
         [HttpGet]
         public IActionResult GetAllSquads()
@@ -46,6 +49,7 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+
         //UPDATE SQUAD
         [HttpPut("{id}")]
         public IActionResult UpdateSquad(int id, [FromBody] Squad squad)
@@ -53,6 +57,7 @@ namespace SpaceMarineAPI.Controllers
             _squadService.UpdateSquad(id, squad);
             return Ok(new { message = "Squad updated!" });
         }
+
 
 
         //DELETE SQUAD

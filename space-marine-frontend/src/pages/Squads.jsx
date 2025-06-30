@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Squads() {
   const [squads, setSquads] = useState([]);
   const [expandedSquadId, setExpandedSquadId] = useState(null);
-  const [marinesBySquad, setMarinesBySquad] = useState({});
+  const [usersBySquad, setUsersBySquad] = useState({});
 
   useEffect(() => {
     axios.get('https://localhost:7170/api/Squad')
@@ -17,12 +17,12 @@ export default function Squads() {
     const isOpen = expandedSquadId === id;
     setExpandedSquadId(isOpen ? null : id);
 
-    if (!isOpen && !marinesBySquad[id]) {
-      axios.get(`https://localhost:7170/api/SpaceMarine/bysquad/${id}`)
+    if (!isOpen && !usersBySquad[id]) {
+      axios.get(`https://localhost:7170/api/User/bysquad/${id}`)
         .then(res => {
-          setMarinesBySquad(prev => ({ ...prev, [id]: res.data }));
+          setUsersBySquad(prev => ({ ...prev, [id]: res.data }));
         })
-        .catch(err => console.error(`Failed to fetch marines for squad ${id}:`, err));
+        .catch(err => console.error(`Failed to fetch users for squad ${id}:`, err));
     }
   };
 
@@ -58,34 +58,39 @@ export default function Squads() {
                 {squad.name} ({squad.type})
               </Link>
               <button onClick={() => toggleSquad(squad.id)}>
-                {expandedSquadId === squad.id ? "Hide Marines" : "Show Marines"}
+                {expandedSquadId === squad.id ? "Hide Members" : "Show Members"}
               </button>
             </div>
-            {expandedSquadId === squad.id && marinesBySquad[squad.id] && (
+            {expandedSquadId === squad.id && usersBySquad[squad.id] && (
               <ul>
-                {marinesBySquad[squad.id].map((m) => (
-              <li
-                key={m.id}
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-              >
-                {m.portraitImage && (
-              <img
-                src={`https://localhost:7170/images/${m.portraitImage}`}
-                alt="Portrait"
-                style={{
-                  width: "30px",
-                  height: "30px",
-                  objectFit: "cover",
-                  borderRadius: "4px"
-                }}
-              />
-              )}
-                <Link to={`/marine/${m.id}`}>
-                  {m.firstName} {m.lastName}
-                </Link>
-              </li>
-              ))}
-            </ul>
+                {usersBySquad[squad.id].map((u) => (
+                  <li
+                    key={u.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "0.25rem"
+                    }}
+                  >
+                    {u.portraitImage && (
+                      <img
+                        src={`https://localhost:7170/images/${u.portraitImage}`}
+                        alt="Portrait"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: "0.5rem",
+                          objectFit: "cover",
+                          borderRadius: "3px"
+                        }}
+                      />
+                    )}
+                    <Link to={`/user/${u.id}`}>
+                      {u.displayName || u.username}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </div>

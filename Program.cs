@@ -2,12 +2,27 @@ using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 
 
@@ -21,9 +36,6 @@ builder.Services.AddScoped<SpaceMarineAPI.Services.UserService>();
 
 builder.Services.AddScoped<SpaceMarineAPI.Repositories.SquadRepository>();
 builder.Services.AddScoped<SpaceMarineAPI.Services.SquadService>();
-
-builder.Services.AddScoped<SpaceMarineAPI.Repositories.SpaceMarineRepository>();
-builder.Services.AddScoped<SpaceMarineAPI.Services.SpaceMarineService>();
 
 
 
@@ -40,6 +52,11 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+
+
+app.UseCors(MyAllowSpecificOrigins);
+
 
 
 // Configure the HTTP request pipeline.

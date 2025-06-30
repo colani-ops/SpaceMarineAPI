@@ -15,10 +15,12 @@ namespace SpaceMarineAPI.Services
         }
 
 
+
         public void AddSquad(Squad squad)
         {
             _squadRepository.AddSquad(squad);
         }
+
 
 
         public Squad GetSquadById(int id)

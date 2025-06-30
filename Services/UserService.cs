@@ -16,15 +16,39 @@ namespace SpaceMarineAPI.Services
         }
 
 
+
         public List<User> GetAllUsers()
         {
             return _userRepository.GetAllUsers();
+        }
+
+
+
+        public User GetByUserId(int id)
+        {
+            return _userRepository.GetByUserId(id);
+        }
+
+
+
+        public List<User> GetUsersBySquad(int squadId)
+        {
+            return _userRepository.GetUsersBySquad(squadId);
+        }
+
+
+
+        public void UpdateProfile(int id, User updated)
+        {
+            _userRepository.UpdateProfile(id, updated);
         }
 
         public void DeleteUser(int id)
         {
             _userRepository.DeleteUser(id);
         }
+
+
 
         public void UpdateUserRole(int id, string role)
         {
@@ -44,7 +68,8 @@ namespace SpaceMarineAPI.Services
         }
 
 
-        public void RegisterUser(string username, string password, string role)
+
+        public void RegisterUser(string username, string password, string role, int? squadId = null)
         {
             var hashed = ComputeSha256Hash(password);
 
@@ -52,7 +77,8 @@ namespace SpaceMarineAPI.Services
             {
                 Username = username,
                 PasswordHash = hashed,
-                Role = role
+                Role = role,
+                SquadId = squadId
             };
 
             _userRepository.AddUser(user);
@@ -91,6 +117,11 @@ namespace SpaceMarineAPI.Services
         public void UpdatePortrait(int id, string filename)
         {
             _userRepository.UpdatePortrait(id, filename);
+        }
+
+        public void UpdateUserSquad(int id, int? squadId)
+        {
+            _userRepository.UpdateSquad(id, squadId);
         }
     }
 }

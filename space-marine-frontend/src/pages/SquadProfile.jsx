@@ -5,16 +5,16 @@ import axios from 'axios';
 export default function SquadProfile() {
   const { id } = useParams();
   const [squad, setSquad] = useState(null);
-  const [marines, setMarines] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     axios.get(`https://localhost:7170/api/Squad/${id}`)
       .then(response => setSquad(response.data))
       .catch(err => console.error('Failed to fetch squad:', err));
 
-    axios.get(`https://localhost:7170/api/SpaceMarine/bysquad/${id}`)
-      .then(response => setMarines(response.data))
-      .catch(err => console.error('Failed to fetch marines:', err));
+    axios.get(`https://localhost:7170/api/User/bysquad/${id}`)
+      .then(response => setUsers(response.data))
+      .catch(err => console.error('Failed to fetch users:', err));
   }, [id]);
 
   if (!squad) return <p>Loading squad...</p>;
@@ -36,15 +36,15 @@ export default function SquadProfile() {
       <h2>{squad.name}</h2>
       <p><strong>Type:</strong> {squad.type}</p>
 
-      <h3>Marines in this squad:</h3>
-      {marines.length > 0 ? (
+      <h3>Members in this squad:</h3>
+      {users.length > 0 ? (
         <ul>
-          {marines.map(m => (
-            <li key={m.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              {m.portraitImage && (
+          {users.map(u => (
+            <li key={u.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              {u.portraitImage && (
                 <img
-                  src={`https://localhost:7170/images/${m.portraitImage}`}
-                  alt="Marine Portrait"
+                  src={`https://localhost:7170/images/${u.portraitImage}`}
+                  alt="Portrait"
                   style={{
                     width: "40px",
                     height: "40px",
@@ -53,14 +53,14 @@ export default function SquadProfile() {
                   }}
                 />
               )}
-                <Link to={`/marine/${m.id}`}>
-                  {m.firstName} {m.lastName} (Age: {m.age})
-                </Link>
+              <Link to={`/user/${u.id}`}>
+                {u.displayName || u.username}
+              </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No marines found in this squad.</p>
+        <p>No users found in this squad.</p>
       )}
     </div>
   );

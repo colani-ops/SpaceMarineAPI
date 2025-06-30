@@ -18,6 +18,7 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginRequest request)
         {
@@ -36,6 +37,7 @@ namespace SpaceMarineAPI.Controllers
         }
 
 
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegisterRequest request)
         {
@@ -45,8 +47,7 @@ namespace SpaceMarineAPI.Controllers
                 return Conflict(new { message = "User already exists." });
             }
 
-            // Always create as a normal User by default
-            _userService.RegisterUser(request.Username, request.Password, "User");
+            _userService.RegisterUser(request.Username, request.Password, request.Role ?? "Marine", request.SquadId);
 
             return Ok(new { message = "User registered successfully." });
         }
@@ -62,10 +63,66 @@ namespace SpaceMarineAPI.Controllers
             var result = users.Select(u => new {
                 id = u.Id,
                 username = u.Username,
-                role = u.Role
+                role = u.Role,
+                squadId = u.SquadId
             });
             return Ok(result);
         }
+
+
+
+        //GET USER BY ID
+        [HttpGet("{id}")]
+        public ActionResult<User> GetUser(int id)
+        {
+            var user = _userService.GetByUserId(id);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+        }
+
+
+
+        //GET USER BY SQUAD ID
+        [HttpGet("bysquad/{squadId}")]
+        public IActionResult GetUsersBySquad(int squadId)
+        {
+            var users = _userService.GetUsersBySquad(squadId);
+            return Ok(users);
+        }
+
+
+
+        //UPDATE USER
+        public class UpdateUserProfileRequest
+        {
+            public string DisplayName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public int? Age { get; set; }
+            public int? Experience { get; set; }
+            public string PortraitImage { get; set; }
+        }
+
+        [HttpPut("{id}/profile")]
+        public IActionResult UpdateProfile(int id, [FromBody] UpdateUserProfileRequest request)
+        {
+            var user = _userService.GetByUserId(id);
+            if (user == null) return NotFound();
+
+            user.DisplayName = request.DisplayName;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.Age = request.Age;
+            user.Experience = request.Experience;
+            user.PortraitImage = request.PortraitImage;
+
+            _userService.UpdateProfile(id, user);
+            return NoContent();
+        }
+
+
+
 
         //DELETE USER
         [HttpDelete("{id}")]
@@ -81,6 +138,8 @@ namespace SpaceMarineAPI.Controllers
             _userService.DeleteUser(id);
             return Ok(new { message = "User deleted." });
         }
+
+
 
         //UPDATE ROLE
         public class UpdateRoleRequest
@@ -105,6 +164,11 @@ namespace SpaceMarineAPI.Controllers
 
 
         //UPDATE PASSWORD
+        public class UpdatePasswordRequest
+        {
+            public string NewPassword { get; set; }
+        }
+
         [HttpPut("{id}/password")]
         public IActionResult UpdatePassword(int id, [FromBody] UpdatePasswordRequest request)
         {
@@ -113,14 +177,14 @@ namespace SpaceMarineAPI.Controllers
             return Ok(new { message = "Password updated." });
         }
 
-        public class UpdatePasswordRequest
-        {
-            public string NewPassword { get; set; }
-        }
 
 
 
         //UPDATE USERNAME
+        public class UpdateUsernameRequest
+        {
+            public string NewUsername { get; set; }
+        }
         [HttpPut("{id}/username")]
         public IActionResult UpdateUsername(int id, [FromBody] UpdateUsernameRequest request)
         {
@@ -128,24 +192,19 @@ namespace SpaceMarineAPI.Controllers
             return Ok(new { message = "Username updated." });
         }
 
-        public class UpdateUsernameRequest
+
+
+        //UPDATE SQUAD
+        public class UpdateSquadRequest
         {
-            public string NewUsername { get; set; }
+            public int? SquadId { get; set; }
         }
 
-
-
-        //UPDATE PORTRAIT
-        [HttpPut("{id}/portrait")]
-        public IActionResult UpdatePortrait(int id, [FromBody] UpdatePortraitRequest request)
+        [HttpPut("{id}/squad")]
+        public IActionResult UpdateSquad(int id, [FromBody] UpdateSquadRequest request)
         {
-            _userService.UpdatePortrait(id, request.PortraitImage);
-            return Ok(new { message = "Portrait updated." });
-        }
-
-        public class UpdatePortraitRequest
-        {
-            public string PortraitImage { get; set; }
+            _userService.UpdateUserSquad(id, request.SquadId);
+            return Ok(new { message = "Squad updated." });
         }
     }
 
@@ -161,5 +220,7 @@ namespace SpaceMarineAPI.Controllers
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
+        public int? SquadId { get; set; }
     }
 }
